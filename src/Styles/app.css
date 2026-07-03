@@ -1,0 +1,18 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    background-color: #FBFBFB;
+    font-family: 'Nunito', sans-serif;
+}
+
+.app {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 64px 120px;
+    gap: 8px;
+    box-sizing: border-box;
+    width: 100%;
+}
