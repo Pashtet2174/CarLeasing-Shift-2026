@@ -18,7 +18,7 @@ const BASE_URL = 'https://juniorsbootcamp.ru/api';
 const CarCard = (props) => {
     const {
         car:{
-            id, name, brand, media, transmission,
+            id, name, media, transmission,
             price, location, color, bodyType, steering
         }={}
     } = props;
@@ -32,12 +32,12 @@ const CarCard = (props) => {
     return (
         <article className="car-card">
             <div className="car-card__image-container">
-                <img src={coverImage} className="car-card__image" alt={name}/>
+                <img src={coverImage} className="car-card__image" />
             </div>
             <div className="car-card__content">
                 <header className="car-card__header">
                     <h3 className="car-card__title">
-                        {brand} {name}
+                        {name}
                     </h3>
                 </header>
 
