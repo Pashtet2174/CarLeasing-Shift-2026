@@ -1,4 +1,4 @@
-const BASE_URL = 'https://juniorsbootcamp.ru/api';
+export const BASE_URL = 'https://juniorsbootcamp.ru/api';
 
 export const getCars = async (params = {}) => {
   try {
