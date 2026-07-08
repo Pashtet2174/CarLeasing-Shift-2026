@@ -2,11 +2,9 @@
     display: flex;
     flex-direction: row;
     align-items: flex-end;
-    padding: 0px;
     gap: 40px;
     width: 1200px;
     height: 66px;
-    margin: 0 auto;
     box-sizing: border-box;
 }
 
@@ -14,11 +12,7 @@
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    padding: 0px;
     gap: 16px;
-    width: 572px;
-    height: 66px;
-    flex: none;
     flex-grow: 1;
 }
 
@@ -26,11 +20,8 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    padding: 0px;
     gap: 4px;
-    height: 66px;
     flex: none;
-    align-self: stretch;
 }
 
 .date-field {
@@ -99,11 +90,7 @@
     display: flex;
     flex-direction: row;
     align-items: flex-end;
-    padding: 0px;
     gap: 16px;
-    width: 228px;
-    height: 52px;
-    flex: none;
 }
 
 .search-btn {
@@ -126,7 +113,6 @@
     line-height: 21px;
     color: #FBFBFB;
     cursor: pointer;
-    transition: background 0.2s ease;
 }
 
 .search-btn:hover {
@@ -138,14 +124,12 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    padding: 8px;
     width: 52px;
     height: 52px;
     background: #F5F5F5;
     border-radius: 9999px;
     border: none;
     cursor: pointer;
-    transition: background 0.2s ease;
 }
 
 .filter-btn:hover {
@@ -156,30 +140,17 @@
     width: 20px;
     height: 20px;
 }
-
+.catalog-container {
+    width: 1200px;
+    margin: 0 auto;
+}
 .car-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+    grid-template-columns: repeat(4, 270px);
+    gap: 40px;
+    width: 1200px;
+    margin-bottom: 32px;
 }
 
-.pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-    margin-top: 40px;
-}
-.car-card__image-container {
-    width: 270px;
-    height: 126px;
-    border-radius: 8px;
-    background-color: #f5f5f5;
-}
-
-.car-card__image {
-    width: 100%;
-    height: 100%;
-}
 
 
