@@ -1,19 +1,18 @@
 import CarCard from './CarCard.jsx';
 import { useState, useEffect, useRef } from 'react';
-import {getCars} from "../../api/carsApi.jsx";
+import { getCars } from '../../api/carsApi.js';
 
-const CarList = ({ appliedFilters }) => {
+const CarList = ({ appliedFilters, rentDays, startDate, endDate }) => {
     const [cars, setCars] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [isLoading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
 
     const observerRef = useRef(null);
     const loaderRef = useRef(null);
 
-
-    const loadCars = async (pageToLoad  ) => {
-        if ( !hasMore) return;
+    const loadCars = async (pageToLoad) => {
+        if (!hasMore) return;
         setIsLoading(true);
 
         try {
@@ -35,7 +34,7 @@ const CarList = ({ appliedFilters }) => {
                 setHasMore(false);
             }
         } catch (error) {
-            console.error("Ошибка при загрузке машин:", error.message);
+            console.error('Ошибка при загрузке машин:', error.message);
         } finally {
             setIsLoading(false);
         }
@@ -51,7 +50,7 @@ const CarList = ({ appliedFilters }) => {
         }
 
         const callback = (entries) => {
-            if (entries[0].isIntersecting && !isLoading ) {
+            if (entries[0].isIntersecting && !isLoading) {
                 setIsLoading(true);
                 setCurrentPage((prevPage) => prevPage + 1);
             }
@@ -59,7 +58,7 @@ const CarList = ({ appliedFilters }) => {
 
         observerRef.current = new IntersectionObserver(callback, {
             rootMargin: '100px',
-            threshold: 1.0
+            threshold: 1.0,
         });
 
         if (loaderRef.current) {
@@ -75,21 +74,32 @@ const CarList = ({ appliedFilters }) => {
 
     return (
         <div className="catalog-container">
-
             <div className="car-grid">
                 {cars.map((carItem) => (
-                    <CarCard key={carItem.id} car={carItem} />
+                    <CarCard
+                        key={carItem.id}
+                        car={carItem}
+                        rentDays={rentDays}
+                        startDate={startDate}
+                        endDate={endDate}
+                    />
                 ))}
             </div>
 
             {hasMore && (
-                <div ref={loaderRef} style={{ height: '40px', textAlign: 'center', padding: '10px' }}>
+                <div
+                    ref={loaderRef}
+                    style={{
+                        height: '40px',
+                        textAlign: 'center',
+                        padding: '10px',
+                    }}
+                >
                     {isLoading ? <h4>Загрузка...</h4> : <></>}
                 </div>
             )}
-
         </div>
     );
-}
+};
 
 export default CarList;

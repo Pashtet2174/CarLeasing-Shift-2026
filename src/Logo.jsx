@@ -3,5 +3,5 @@ const Logo = () => {
         <div>
             <img src="logo.png" alt="Logo" />
         </div>
-    )
-}
+    );
+};
