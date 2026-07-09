@@ -1,5 +1,6 @@
-import { translate} from '../../constants/CarEnums.jsx';
+import {TransmissionTranslations} from '../../constants/CarEnums.jsx';
 import { BASE_URL } from '../../api/carsApi.jsx';
+import  '../../Styles/carCard.css';
 
 const CarCard = (props) => {
     const {
@@ -8,7 +9,7 @@ const CarCard = (props) => {
         }={}
     } = props;
     const coverImage = media?.[0] ? `${BASE_URL}${media[0].url}` : "";
-    const transmissionText = translate('transmission', transmission);
+    const transmissionText = TransmissionTranslations[transmission];
     const rentDays = 14;
     const totalPrice = price * rentDays;
     return (
@@ -25,7 +26,7 @@ const CarCard = (props) => {
 
                 <div className="car-card__description">
                     <p className="car-card__text">
-                        {transmissionText}.
+                        {transmissionText}
                     </p>
                     <h4 className="car-card__price">
                         {price.toLocaleString('ru-RU')} ₽

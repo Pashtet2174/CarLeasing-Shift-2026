@@ -1,88 +1,95 @@
-    import CarCard from './CarCard.jsx';
-    import { useState, useEffect, useRef } from 'react';
-    import {getCars} from "../../api/carsApi.jsx";
+import CarCard from './CarCard.jsx';
+import { useState, useEffect, useRef } from 'react';
+import {getCars} from "../../api/carsApi.jsx";
 
-    const CarList = () => {
-        const [cars, setCars] = useState([]);
-        const [currentPage, setCurrentPage] = useState(1);
-        const [isLoading, setIsLoading] = useState(false)
-        const [hasMore, setHasMore] = useState(true);
+const CarList = ({ appliedFilters }) => {
+    const [cars, setCars] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [isLoading, setIsLoading] = useState(false)
+    const [hasMore, setHasMore] = useState(true);
 
-        const observerRef = useRef(null);
-        const loaderRef = useRef(null);
+    const observerRef = useRef(null);
+    const loaderRef = useRef(null);
 
 
-        const loadCars = async (pageToLoad) => {
-            if ( !hasMore) return;
+    const loadCars = async (pageToLoad  ) => {
+        if ( !hasMore) return;
+        setIsLoading(true);
 
-            setIsLoading(true);
-            console.log(`Запрашиваем страницу номер: ${pageToLoad}`);
+        try {
+            const Params = { page: pageToLoad };
+            for (const key in appliedFilters) {
+                const value = appliedFilters[key];
 
-            try {
-                const response = await getCars({ page: pageToLoad });
-                const { data, meta } = response;
-
-                setCars((prevCars) => [...prevCars, ...data]);
-
-                if (pageToLoad >= meta.totalPages) {
-                    setHasMore(false);
+                if (value !== '' && value !== 'any') {
+                    Params[key] = value;
                 }
-            } catch (error) {
-                console.error("Ошибка при загрузке машин:", error.message);
-            } finally {
-                setIsLoading(false);
+            }
+
+            const response = await getCars(Params);
+            const { data, meta } = response;
+
+            setCars((currentCars) => [...currentCars, ...data]);
+
+            if (pageToLoad >= meta.totalPages) {
+                setHasMore(false);
+            }
+        } catch (error) {
+            console.error("Ошибка при загрузке машин:", error.message);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+    useEffect(() => {
+        void loadCars(currentPage);
+    }, [currentPage]);
+
+    useEffect(() => {
+        if (!hasMore || isLoading) return;
+        if (observerRef.current) {
+            observerRef.current.disconnect();
+        }
+
+        const callback = (entries) => {
+            if (entries[0].isIntersecting && !isLoading ) {
+                setIsLoading(true);
+                setCurrentPage((prevPage) => prevPage + 1);
             }
         };
-        useEffect(() => {
-            void loadCars(currentPage);
-        }, [currentPage]);
 
-        useEffect(() => {
-            if (!hasMore || isLoading) return;
+        observerRef.current = new IntersectionObserver(callback, {
+            rootMargin: '100px',
+            threshold: 1.0
+        });
+
+        if (loaderRef.current) {
+            observerRef.current.observe(loaderRef.current);
+        }
+
+        return () => {
             if (observerRef.current) {
                 observerRef.current.disconnect();
             }
+        };
+    }, [hasMore, isLoading]);
 
-            const callback = (entries) => {
-                if (entries[0].isIntersecting && !isLoading ) {
-                    setIsLoading(true);
-                    setCurrentPage((prevPage) => prevPage + 1);
-                }
-            };
+    return (
+        <div className="catalog-container">
 
-            observerRef.current = new IntersectionObserver(callback, {
-                rootMargin: '100px',
-                threshold: 1.0
-            });
-
-            if (loaderRef.current) {
-                observerRef.current.observe(loaderRef.current);
-            }
-
-            return () => {
-                if (observerRef.current) {
-                    observerRef.current.disconnect();
-                }
-            };
-        }, [hasMore, isLoading]);
-
-        return (
-            <div className="catalog-container">
-
-                <div className="car-grid">
-                    {cars.map((carItem) => (
-                        <CarCard key={carItem.id} car={carItem} />
-                    ))}
-                </div>
-
-                {hasMore && (
-                    <div ref={loaderRef} style={{ height: '40px', textAlign: 'center', padding: '10px' }}>
-                        {isLoading ? <h4>Загрузка...</h4> : <h4>Скролльте для загрузки</h4>}
-                    </div>
-                )}
-
+            <div className="car-grid">
+                {cars.map((carItem) => (
+                    <CarCard key={carItem.id} car={carItem} />
+                ))}
             </div>
-        );
-    }
 
-    export default CarList;
+            {hasMore && (
+                <div ref={loaderRef} style={{ height: '40px', textAlign: 'center', padding: '10px' }}>
+                    {isLoading ? <h4>Загрузка...</h4> : <></>}
+                </div>
+            )}
+
+        </div>
+    );
+}
+
+export default CarList;

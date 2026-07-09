@@ -3,7 +3,33 @@ import SearchIcon from "../../images/searchIcon.svg?react";
 import FilterIcon from "../../images/filterIcon.svg?react";
 import '../../Styles/Content.css';
 import CarList from "./CarList.jsx";
+import Filters from "./Filters.jsx";
+import {useState} from "react";
 const Content = () => {
+    const initialFilters = {
+        brand: '',
+        bodyType: '',
+        color: '',
+        steering: 'any',
+        transmission: 'any',
+        minPrice: '',
+        maxPrice: '',
+        search: ''
+    };
+
+    const [tempFilters, setTempFilters] = useState(initialFilters);
+    const [appliedFilters, setAppliedFilters] = useState(initialFilters);
+    const [isFiltersOpen, setIsFiltersOpen] = useState(false);
+
+    const handleApplyFilters = () => {
+        setAppliedFilters(tempFilters);
+        setIsFiltersOpen(false);
+    };
+
+    const handleResetFilters = () => {
+        setTempFilters(initialFilters);
+        setAppliedFilters(initialFilters);
+    };
     return (
         <main className="content">
             <div className="searching-container">
@@ -26,18 +52,35 @@ const Content = () => {
                         <label htmlFor="model-search">Поиск</label>
                         <div className="text-field">
                             <SearchIcon className="field-icon" />
-                            <input id="model-search" type="search" placeholder="Модель машины"/>
+                            <input id="model-search" name="search" type="search" placeholder="Модель машины" value={tempFilters.search}
+                                   onChange={(e) => {
+                                       setTempFilters({ ...tempFilters, search: e.target.value });
+                                   }}
+                                   onKeyDown={(e) => {
+                                       if (e.key === 'Enter') {
+                                           handleApplyFilters();
+                                       }
+                                   }}
+                            />
                         </div>
                     </div>
                 </div>
                 <div className="actions-group">
-                    <button className="search-btn">Найти машину</button>
-                    <button className="filter-btn">
+                    <button className="search-btn" onClick={handleApplyFilters}>Найти машину</button>
+                    <button className="filter-btn" onClick={() => setIsFiltersOpen(true)}>
                         <FilterIcon className="filter-icon" />
                     </button>
                 </div>
             </div>
-            <CarList />
+            <Filters
+                isOpen={isFiltersOpen}
+                onClose={() => setIsFiltersOpen(false)}
+                tempFilters={tempFilters}
+                setTempFilters={setTempFilters}
+                onApply={handleApplyFilters}
+                onReset={handleResetFilters}
+            />
+            <CarList appliedFilters={appliedFilters} key={JSON.stringify(appliedFilters)} />
         </main>
     );
 };

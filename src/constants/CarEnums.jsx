@@ -29,22 +29,11 @@ export const ColorTranslations = {
 };
 
 export const SteeringTranslations = {
-    left: 'Левый руль',
-    right: 'Правый руль'
+    left: 'Левый',
+    right: 'Правый'
 };
 
 export const TransmissionTranslations = {
     automatic: 'Автомат',
     manual: 'Механика'
-};
-export const translate = (category, value) => {
-    const dictionaries = {
-        brand: BrandTranslations,
-        bodyType: BodyTypeTranslations,
-        color: ColorTranslations,
-        transmission: TransmissionTranslations,
-        steering: SteeringTranslations
-    };
-
-    return dictionaries[category]?.[value] || value;
 };
