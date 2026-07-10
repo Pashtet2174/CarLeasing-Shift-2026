@@ -1,16 +1,21 @@
-import Calendar from '../../images/calendar.svg?react';
-import SearchIcon from '../../images/searchIcon.svg?react';
-import FilterIcon from '../../images/filterIcon.svg?react';
-import '../../Styles/Content.css';
-import CarList from './CarList.jsx';
-import Filters from './Filters.jsx';
 import { useState } from 'react';
-import DatePicker, { registerLocale } from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import { ru } from 'date-fns/locale';
-registerLocale('ru', ru);
+
 import { differenceInDays } from 'date-fns';
-const Content = () => {
+import { ru } from 'date-fns/locale';
+import DatePicker, { registerLocale } from 'react-datepicker';
+
+import Filters from '../../../features/cars-filters';
+import Calendar from '../../../shared/assets/icons/CalendarIcon.svg?react';
+import FilterIcon from '../../../shared/assets/icons/FilterIcon.svg?react';
+import SearchIcon from '../../../shared/assets/icons/SearchIcon.svg?react';
+import CarList from '../../../widgets/car-list';
+import './CatalogPage.css';
+
+import 'react-datepicker/dist/react-datepicker.css';
+
+registerLocale('ru', ru);
+
+const CatalogPage = () => {
     const initialFilters = {
         brand: '',
         bodyType: '',
@@ -129,4 +134,4 @@ const Content = () => {
     );
 };
 
-export default Content;
+export default CatalogPage;

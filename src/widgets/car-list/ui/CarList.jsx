@@ -1,6 +1,6 @@
-import CarCard from './CarCard.jsx';
-import { useState, useEffect, useRef } from 'react';
-import { getCars } from '../../api/carsApi.js';
+import { useEffect, useRef, useState } from 'react';
+
+import CarCard, { getCars } from '../../../entities/car';
 
 const CarList = ({ appliedFilters, rentDays, startDate, endDate }) => {
     const [cars, setCars] = useState([]);

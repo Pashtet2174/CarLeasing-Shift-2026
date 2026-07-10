@@ -1,5 +1,6 @@
-import Header from './Header.jsx';
 import { Outlet } from 'react-router';
+
+import Header from '../../widgets/header';
 
 const MainLayout = () => {
     return (

@@ -1,19 +1,21 @@
-import { useParams, useNavigate } from 'react-router';
 import { useEffect, useState } from 'react';
-import { getCarById, BASE_URL } from '../../api/carsApi.js';
-import {
-    TransmissionTranslations,
-    BodyTypeTranslations,
-    ColorTranslations,
-    SteeringTranslations,
-    BrandTranslations,
-} from '../../constants/CarEnums.jsx';
-import '../../Styles/carDetails.css';
+
+import { useNavigate, useParams, useSearchParams } from 'react-router';
+
 import { format, parseISO } from 'date-fns';
 import { ru } from 'date-fns/locale';
-import { useSearchParams } from 'react-router';
 
-const CarDetails = () => {
+import {
+    BodyTypeTranslations,
+    BrandTranslations,
+    ColorTranslations,
+    SteeringTranslations,
+    TransmissionTranslations,
+} from '../../../entities/car';
+import { BASE_URL, getCarById } from '../../../entities/car';
+import './CarDetailsPage.css';
+
+const CarDetailsPage = () => {
     const [searchParams] = useSearchParams();
     const { id } = useParams();
     const rentDays = searchParams.get('days');
@@ -34,17 +36,15 @@ const CarDetails = () => {
             setCar(carData);
             setIsLoading(false);
         };
-        fetchCar();
+        void fetchCar();
     }, [id]);
     if (isLoading || !car) {
         return <div className="loading-state">Загрузка ...</div>;
     }
 
     const totalPrice = car.price * rentDays;
-    const media = car.media || [];
-    const mainImage = media[currentImgIndex]
-        ? `${BASE_URL}${media[currentImgIndex].url}`
-        : '';
+    const media = car.media;
+    const mainImage = `${BASE_URL}${media[currentImgIndex].url}`;
     const hasMultipleImages = media.length > 1;
     const handlePrev = () => {
         setCurrentImgIndex((prev) =>
@@ -179,4 +179,4 @@ const CarDetails = () => {
     );
 };
 
-export default CarDetails;
+export default CarDetailsPage;

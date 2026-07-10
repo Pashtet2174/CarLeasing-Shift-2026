@@ -1,12 +1,13 @@
-import CloseIcon from '../../images/closeIcon.svg?react';
 import {
-    BrandTranslations,
     BodyTypeTranslations,
+    BrandTranslations,
     ColorTranslations,
     SteeringTranslations,
     TransmissionTranslations,
-} from './../../constants/CarEnums';
-import '../../Styles/Filters.css';
+} from '../../../entities/car';
+import CloseIcon from '../../../shared/assets/icons/CloseIcon.svg?react';
+import './Filters.css';
+
 const Filters = ({
     isOpen,
     onClose,
@@ -15,11 +16,7 @@ const Filters = ({
     onApply,
     onReset,
 }) => {
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setTempFilters((prevFilters) => ({ ...prevFilters, [name]: value }));
-    };
-    const handleValueChange = (key, value) => {
+    const updateFilter = (key, value) => {
         setTempFilters((prevFilters) => ({ ...prevFilters, [key]: value }));
     };
     const minLimit = 0;
@@ -55,7 +52,9 @@ const Filters = ({
                             name="brand"
                             className={`filter-select ${!tempFilters.brand ? 'filter-select--placeholder' : ''}`}
                             value={tempFilters.brand}
-                            onChange={handleInputChange}
+                            onChange={(e) =>
+                                updateFilter(e.target.name, e.target.value)
+                            }
                             required
                         >
                             <option value="">Выберите марку</option>
@@ -74,7 +73,9 @@ const Filters = ({
                             name="bodyType"
                             className={`filter-select ${!tempFilters.bodyType ? 'filter-select--placeholder' : ''}`}
                             value={tempFilters.bodyType}
-                            onChange={handleInputChange}
+                            onChange={(e) =>
+                                updateFilter(e.target.name, e.target.value)
+                            }
                             required
                         >
                             <option value="">Выберите тип кузова</option>
@@ -96,9 +97,7 @@ const Filters = ({
                                         ? 'active'
                                         : ''
                                 }
-                                onClick={() =>
-                                    handleValueChange('steering', 'any')
-                                }
+                                onClick={() => updateFilter('steering', 'any')}
                             >
                                 Любой
                             </button>
@@ -113,7 +112,7 @@ const Filters = ({
                                                 : ''
                                         }
                                         onClick={() =>
-                                            handleValueChange('steering', key)
+                                            updateFilter('steering', key)
                                         }
                                     >
                                         {value}
@@ -132,7 +131,7 @@ const Filters = ({
                                         : ''
                                 }
                                 onClick={() =>
-                                    handleValueChange('transmission', 'any')
+                                    updateFilter('transmission', 'any')
                                 }
                             >
                                 Любая
@@ -147,10 +146,7 @@ const Filters = ({
                                                 : ''
                                         }
                                         onClick={() =>
-                                            handleValueChange(
-                                                'transmission',
-                                                key
-                                            )
+                                            updateFilter('transmission', key)
                                         }
                                     >
                                         {value}
@@ -171,7 +167,12 @@ const Filters = ({
                                     placeholder="0 руб."
                                     className="price-field"
                                     value={tempFilters.minPrice}
-                                    onChange={handleInputChange}
+                                    onChange={(e) =>
+                                        updateFilter(
+                                            e.target.name,
+                                            e.target.value
+                                        )
+                                    }
                                 />
                             </div>
                             <div className="price-field-group">
@@ -183,7 +184,12 @@ const Filters = ({
                                     placeholder="20 000 руб."
                                     className="price-field"
                                     value={tempFilters.maxPrice}
-                                    onChange={handleInputChange}
+                                    onChange={(e) =>
+                                        updateFilter(
+                                            e.target.name,
+                                            e.target.value
+                                        )
+                                    }
                                 />
                             </div>
                         </div>
@@ -248,7 +254,7 @@ const Filters = ({
                                         type="button"
                                         className={`color-circle color-${key} ${tempFilters.color === key ? 'active' : ''}`}
                                         onClick={() =>
-                                            handleValueChange(
+                                            updateFilter(
                                                 'color',
                                                 tempFilters.color === key
                                                     ? ''

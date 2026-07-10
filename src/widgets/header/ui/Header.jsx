@@ -1,8 +1,8 @@
-import '../Styles/header.css';
-import MotorcycleIcon from '../images/motorcycle.svg?react';
-import LogoutIcon from '../images/logoutIcon.svg?react';
-import HistoryIcon from '../images/history.svg?react';
-import ProfileIcon from '../images/profileIcon.svg?react';
+import HistoryIcon from '../../../shared/assets/icons/HistoryIcon.svg?react';
+import MotorcycleIcon from '../../../shared/assets/icons/MotorcycleIcon.svg?react';
+import ProfileIcon from '../../../shared/assets/icons/ProfileIcon.svg?react';
+import LogoutIcon from '../../../shared/assets/icons/logoutIcon.svg?react';
+import './Header.css';
 
 const Header = () => {
     return (

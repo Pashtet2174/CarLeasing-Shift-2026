@@ -1,13 +1,15 @@
-import { TransmissionTranslations } from '../../constants/CarEnums.jsx';
-import { BASE_URL } from '../../api/carsApi.js';
-import '../../Styles/carCard.css';
 import { useNavigate } from 'react-router';
+
 import { format } from 'date-fns';
+
+import { BASE_URL } from '../api/CarsApi';
+import { TransmissionTranslations } from '../model/CarTranlations';
+import './СarCard.css';
 
 const CarCard = ({ car, rentDays, startDate, endDate }) => {
     const { id, name, media, transmission, price } = car;
     const navigate = useNavigate();
-    const coverImage = media?.[0] ? `${BASE_URL}${media[0].url}` : '';
+    const coverImage = `${BASE_URL}${media[0].url}`;
     const transmissionText = TransmissionTranslations[transmission];
     const totalPrice = price * rentDays;
     const startStr = format(startDate, 'yyyy-MM-dd');
